@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1520257277 source:c:\users\xu_que\desktop\pat\1001.a+b_fromat\main.cpp
+	<iostream>
+	<stdio.h>
+	<stack>
+

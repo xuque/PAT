@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1516070754 source:c:\users\xu_que\desktop\mooc\the operation of binary tree\main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+

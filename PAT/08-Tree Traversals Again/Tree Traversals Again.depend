@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1515587410 source:c:\users\xu_que\desktop\mooc\tree traversals again\main.cpp
+	<iostream>
+	<vector>
+	<stack>
+	<stdbool.h>
+	<stdlib.h>
+	<string>
+	<string.h>
+
+1517114457 source:c:\users\xu_que\desktop\mooc\08-tree traversals again\main.cpp
+	<iostream>
+	<vector>
+	<stack>
+	<stdbool.h>
+	<stdlib.h>
+	<string>
+	<string.h>
+

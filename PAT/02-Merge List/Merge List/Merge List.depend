@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1507726157 source:c:\users\administered\desktop\mooc\merge list\merge list\main.c
+	<stdio.h>
+	<stdlib.h>
+

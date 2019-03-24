@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1520751841 source:c:\users\xu_que\desktop\mooc spring\07-06harrypottertest\main.cpp
+	<iostream>
+	<stdio.h>
+	<queue>
+	<vector>
+

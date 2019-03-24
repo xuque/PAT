@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1520582417 source:c:\users\xu_que\desktop\mooc spring\06-01-connect\main.cpp
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<queue>
+

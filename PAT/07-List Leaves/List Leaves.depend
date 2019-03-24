@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1509007593 source:c:\users\administered\desktop\mooc\list leaves\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1509007593 source:c:\users\xu_que\desktop\mooc\07-list leaves\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+

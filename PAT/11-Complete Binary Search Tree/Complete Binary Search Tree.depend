@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1516087470 source:c:\users\xu_que\desktop\mooc\11-complete binary search tree\main.cpp
+	<iostream>
+	<stdio.h>
+	<algorithm>
+
