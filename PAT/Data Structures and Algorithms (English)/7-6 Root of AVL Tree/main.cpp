@@ -1,114 +1,135 @@
 #include <iostream>
 
-using namespace std;
+template<class T>
+void DeleteNode(T*& ptr)
+{
+    delete ptr;
+    ptr = nullptr;
+}
 
 typedef struct Tree_Node* TreeNode;
-struct Tree_Node{
-    int Data;
-    int Height;
-    TreeNode Left;
-    TreeNode Right;
+struct Tree_Node
+{
+    ~Tree_Node()
+    {
+        DeleteNode(_left);
+        DeleteNode(_right);
+    }
+    int _data;
+    int _height;
+    TreeNode _left;
+    TreeNode _right;
 };
+
 int MAX(int a,int b)
 {
-    return ( (a>b)?a:b );
+    return ((a > b) ? a : b);
 }
+
 int TreeHeight(TreeNode root)
 {
-    if(root==NULL) return 0;
-    else if(root->Left==NULL&&root->Right==NULL) return 1;
-    else if(root->Left==NULL) return ( TreeHeight(root->Right)+1 );
-    else if(root->Right==NULL) return ( TreeHeight(root->Left)+1 );
-    else return ( MAX( TreeHeight(root->Left), TreeHeight(root->Right) )+1 );
+    if (root == NULL) return 0;
+    else if (root->_left == NULL && root->_right == NULL) return 1;
+    else if (root->_left == NULL) return (TreeHeight(root->_right) + 1);
+    else if (root->_right == NULL) return (TreeHeight(root->_left) + 1);
+    else return ( MAX(TreeHeight(root->_left), TreeHeight(root->_right)) + 1 );
 }
-int UpDateHeight(TreeNode root)
+int UpdateHeight(TreeNode root)
 {
-    return ( MAX(TreeHeight(root->Left),TreeHeight(root->Right))+1 );
+    return ( MAX(TreeHeight(root->_left),TreeHeight(root->_right))+1 );
 }
 TreeNode LL(TreeNode &root)
 {
-    TreeNode LChild=root->Left;
-    root->Left=LChild->Right;
-    LChild->Right=root;
-    root->Height=UpDateHeight(root);
-    LChild->Height=UpDateHeight(LChild);
-    return LChild;
+    TreeNode left_child = root->_left;
+    root->_left = left_child->_right;
+    left_child->_right = root;
+    root->_height = UpdateHeight(root);
+    left_child->_height = UpdateHeight(left_child);
+    return left_child;
 }
 TreeNode RR(TreeNode &root)
 {
-    TreeNode RChild=root->Right;
-    root->Right=RChild->Left;
-    RChild->Left=root;
-    root->Height=UpDateHeight(root);
-    RChild->Height=UpDateHeight(RChild);
-    return RChild;
+    TreeNode right_child = root->_right;
+    root->_right = right_child->_left;
+    right_child->_left = root;
+    root->_height = UpdateHeight(root);
+    right_child->_height = UpdateHeight(right_child);
+    return right_child;
 }
 TreeNode LR(TreeNode &root)
 {
-    TreeNode LChild=root->Left;
-    TreeNode LR_Node=LChild->Right;
-    LChild->Right=LR_Node->Left;
-    root->Left=LR_Node->Right;
-    LR_Node->Left=LChild;
-    LR_Node->Right=root;
-    root->Height=UpDateHeight(root);
-    LChild->Height=UpDateHeight(LChild);
-    LR_Node->Height=UpDateHeight(LR_Node);
-    return LR_Node;
+    TreeNode left_child = root->_left;
+    TreeNode lr_node = left_child->_right;
+    left_child->_right = lr_node->_left;
+    root->_left = lr_node->_right;
+    lr_node->_left = left_child;
+    lr_node->_right = root;
+    root->_height = UpdateHeight(root);
+    left_child->_height = UpdateHeight(left_child);
+    lr_node->_height = UpdateHeight(lr_node);
+    return lr_node;
 }
 TreeNode RL(TreeNode &root)
 {
-    TreeNode RChild=root->Right;
-    TreeNode RL_Node=RChild->Left;
-    RChild->Left=RL_Node->Right;
-    root->Right=RL_Node->Left;
-    RL_Node->Left=root;
-    RL_Node->Right=RChild;
-    root->Height=UpDateHeight(root);
-    RChild->Height=UpDateHeight(RChild);
-    RL_Node->Height=UpDateHeight(RL_Node);
-    return RL_Node;
+    TreeNode right_child = root->_right;
+    TreeNode rl_node = right_child->_left;
+    right_child->_left = rl_node->_right;
+    root->_right = rl_node->_left;
+    rl_node->_left = root;
+    rl_node->_right = right_child;
+    root->_height = UpdateHeight(root);
+    right_child->_height = UpdateHeight(right_child);
+    rl_node->_height = UpdateHeight(rl_node);
+    return rl_node;
 }
 int Balance(TreeNode root)
 {
-    return (TreeHeight(root->Left)-TreeHeight(root->Right));
+    return (TreeHeight(root->_left) - TreeHeight(root->_right));
 }
 void Insert(TreeNode &root, int number)
 {
-    if(root==NULL){
-        TreeNode NewTreeNode=new Tree_Node;
-        NewTreeNode->Data=number;
-        NewTreeNode->Height=1;
-        NewTreeNode->Left=NewTreeNode->Right=NULL;
-        root=NewTreeNode;
+    if(root==NULL)
+    {
+        TreeNode node = new Tree_Node;
+        node->_data=number;
+        node->_height=1;
+        node->_left=node->_right=NULL;
+        root=node;
         return ;
     }
-    else{
-        if(number>root->Data) Insert(root->Right,number);
-        if(number<root->Data) Insert(root->Left,number);
-        root->Height=UpDateHeight(root);   //Up date the Height
+    else
+    {
+        if (number > root->_data) Insert(root->_right, number);
+        if (number < root->_data) Insert(root->_left, number);
+        root->_height=UpdateHeight(root);   //Up date the Height
         //* Rotate *//
-        int NodeBalance=Balance(root); //Left Tree Height - Right Tree Height
-        if(NodeBalance==2){    //L
-            int NodeBalanceLeft=Balance(root->Left);
-            if(NodeBalanceLeft==1){  //LL
-                root=LL(root);
-                return ;
+        int NodeBalance = Balance(root); //Left Tree Height - Right Tree Height
+        if (NodeBalance == 2)
+        {    //L
+            int NodeBalanceLeft = Balance(root->_left);
+            if (NodeBalanceLeft == 1) //LL
+            {  
+                root = LL(root);
+                return;
             }
-            else if(NodeBalanceLeft==-1){  //LR
-                root=LR(root);
-                return ;
+            else if (NodeBalanceLeft == -1) //LR
+            {  
+                root = LR(root);
+                return;
             }
         }
-        else if(NodeBalance==-2){    //R
-            int NodeBalanceRight=Balance(root->Right);
-            if(NodeBalanceRight==1){   //RL
-                root=RL(root);
-                return ;
+        else if (NodeBalance == -2)   //R
+        {
+            int NodeBalanceRight = Balance(root->_right);
+            if (NodeBalanceRight == 1)   //RL
+            {
+                root = RL(root);
+                return;
             }
-            else if(NodeBalanceRight==-1){  //RR
-                root=RR(root);
-                return ;
+            else if (NodeBalanceRight == -1)   //RR
+            {
+                root = RR(root);
+                return;
             }
         }
         else return ;
@@ -117,13 +138,16 @@ void Insert(TreeNode &root, int number)
 int main()
 {
     int number;
-    cin>>number;
-    TreeNode root=NULL;
-    for(int i=0;i<number;i++){
-        int getData;
-        cin>>getData;
-        Insert(root,getData);
+    std::cin>>number;
+
+    TreeNode root = NULL;
+    for (int i = 0; i < number; i++)
+    {
+        int value;
+        std::cin >> value;
+        Insert(root, value);
     }
-    cout<<root->Data;
+
+    std::cout << root->_data;
     return 0;
 }
